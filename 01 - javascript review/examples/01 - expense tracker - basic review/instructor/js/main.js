@@ -15,7 +15,8 @@ function renderExpenses(expenseData) {
   // for a given expense, add a new card containing that data to the expenseContainer's inner HTML
   expenseData.forEach(
     (expense) => {
-      expenseContainer.innerHTML += `
+      expenseContainer.innerHTML += ` 
+
       <div class="card" id="${expense.id}">
         <div class="header">
           <div>
@@ -38,13 +39,10 @@ function renderExpenses(expenseData) {
 // 4. call the function to actually do the render
 renderExpenses(expenses);
 
-
-// 5. [skeleton]: form submission:
-function submitExpense() {
-  // ...
-}
-
-expenseForm.addEventListener("submit", submitExpense);
-
-
-
+// 5. let's write all our code as inline first, then clean it up later
+expenseForm.addEventListener(
+  "submit",            // argument 1: the name/type of the event (e.g. submit, change, click -> these are HTML built-ins)
+  function (event) {   // argument 2: the logic/function that should fire (with the event being passed to it by default)
+    console.log(event);
+    event.preventDefault(); // event built-in; preventing default behaviour on a form basically means "don't post data & reload page"
+});
