@@ -39,6 +39,8 @@ function renderExpenses(expenseData) {
 // 4. call the function to actually do the render
 renderExpenses(expenses);
 
+expenseForm.addEventListener("change", function (event) { console.log(event.target.value); });
+
 // 5. let's write all our code as inline first, then clean it up later
 expenseForm.addEventListener(
   "submit",            // argument 1: the name/type of the event (e.g. submit, change, click -> these are HTML built-ins)
@@ -62,5 +64,6 @@ expenseForm.addEventListener(
       category,
     }
 
-    console.log(newExpense);
+    expenses.push(newExpense);
+    renderExpenses(expenses);
 });
