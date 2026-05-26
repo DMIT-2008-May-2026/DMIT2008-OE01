@@ -50,20 +50,28 @@ expenseForm.addEventListener(
 
     // let's grab all our input elements/values
     const title = document.getElementById('title').value;
-    const amount = document.getElementById('amount').value;
+    const amount = parseFloat(document.getElementById('amount').value);
     const date = document.getElementById('date').value;
     const category = document.getElementById('category').value;
 
-    // let's write out our logic 'naively', and beef it up later
-    const newExpense = {
-      // if object property name & variable name are the same you can just {value} instead of {property: value}
-      id: expenses.length + 1,
-      title,
-      amount,
-      date,
-      category,
+    // make a new expense if all the fields are present & amount is a number
+    if (title && date && category && !isNaN(amount)) { // "isNaN": "is Not a Number"
+      const newExpense = {
+        // if object property name & variable name are the same you can just {value} instead of {property: value}
+        id: expenses.length + 1,
+        title,
+        amount,
+        date,
+        category,
+      }
     }
 
+    // a change in data -> ui should re-render (with vanilla JS, we have to trigger that manually)
     expenses.push(newExpense);
     renderExpenses(expenses);
+
+    // after submitting, we want the form to reset
+    //expenseForm.reset();
+    // you could also write this.reset() since the code scope for this listener is attached to expenseForm
+    // as the parent object — "this" just refers to whatever the parent object for a block of code is
 });
