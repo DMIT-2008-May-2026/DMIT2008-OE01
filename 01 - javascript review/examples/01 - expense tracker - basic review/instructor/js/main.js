@@ -3,7 +3,7 @@ import expenses from './expense-data.js';
 
 // 2. grab relevant DOM elements
 const expenseContainer = document.getElementById('expense-container');
-const searchTerm = document.getElementById('searchbox');
+const searchBox = document.getElementById('searchbox');
 const expenseForm = document.getElementById('expense-form-add');
 
 // 3. render out data into a grid of cards
@@ -74,3 +74,39 @@ expenseForm.addEventListener(
     }
 
 });
+
+
+/* 6. let's handle search filtration! we need:
+      - the searchbox DOM element as an object (already done in step 2)
+      - attach an event listener on it for change/input events
+      - somehow filter the cards (i.e. the expenses array) based on the text in the searchbox
+*/
+searchBox.addEventListener(
+  "input",            // arg 1: event type/name
+  function (event) {  // arg 2: callback function that fires when event is emitted
+    console.log(event);
+    const searchTerm = event.target.value.toLowerCase();
+    const filteredExpenses = expenses.filter(
+      (expense) => expense.title.toLowerCase().includes(searchTerm)
+    );
+    renderExpenses(filteredExpenses);
+  }
+);
+
+// 7. let's handle editing/deleting
+// I only need one click listener for the whole card container; I can just narrow down later
+// specifically what got clicked.
+expenseContainer.addEventListener(
+  "click",
+  function(event) {
+    // event.target will be *exactly* what got clicked within the expense container, not just
+    // "always the container itself"
+    if (event.target.classList.contains("delete-btn")) {
+      // delete the element from the expenses array (somehow getting the right one)
+      // then, re-render
+    } else if (event.target.classList.contains("edit-btn")) {
+      // populate the form inputs w/ data from the element/card
+      // somehow figure out a way to save back to that element/card instead of creating a new one
+    }
+  }
+);
