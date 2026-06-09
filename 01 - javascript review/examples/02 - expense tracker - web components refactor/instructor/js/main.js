@@ -2,10 +2,10 @@ import expenses from './expense-data.js';
 
 // custom components
 import './components/ExpenseSearch.js';
+import './components/ExpenseForm.js';
+
 
 const expenseContainer = document.getElementById('expense-container');
-const expenseForm = document.getElementById('expense-form-add');
-const submitButton = document.getElementById('submitter');
 
 function renderExpenses(expenseData) {
   expenseContainer.innerHTML = expenseData.map(
@@ -60,34 +60,6 @@ function searchExpenses(query) {
   );
 }
 
-function readFormData() {
-  return {
-    title: document.getElementById("title").value,
-    category: document.getElementById("category").value,
-    date: document.getElementById("date").value,
-    amount: parseFloat(document.getElementById("amount").value),
-  };
-}
-
-function populateForm(expense) {
-  document.getElementById("title").value = expense.title;
-  document.getElementById("amount").value = expense.amount;
-  document.getElementById("date").value = expense.date;
-  document.getElementById("category").value = expense.category;
-  document.getElementById("expense-id").value = expense.id;
-
-  submitButton.innerText = "Save";
-}
-
-function validateFormData ({ title, category, date, amount }) {
-  return title && category && date && !isNaN(amount);
-}
-
-function resetForm() {
-  expenseForm.reset();
-  submitButton.innerText = "Add Expense";
-}
-
 function handleFormSubmit(event) {
   event.preventDefault();
   const formFields = readFormData();
@@ -96,15 +68,15 @@ function handleFormSubmit(event) {
     alert("Please fill in all fields correctly.");
     return;
   }
+  // we'll need to include this somehow:
+  // if (submitButton.innerText === "Add Expense") {
+  //   addExpense(formFields);
+  // } else {
+  //   const id = parseInt(document.getElementById("expense-id").value);
+  //   updateExpense(id, formFields);
+  // }
 
-  if (submitButton.innerText === "Add Expense") {
-    addExpense(formFields);
-  } else {
-    const id = parseInt(document.getElementById("expense-id").value);
-    updateExpense(id, formFields);
-  }
-
-  renderExpenses(expenses);
+  // renderExpenses(expenses);
   resetForm();
 }
 
@@ -126,7 +98,6 @@ function handleExpenseContainerClick(event) {
 }
 
 
-expenseForm.addEventListener("submit", handleFormSubmit);
 expenseContainer.addEventListener("click", handleExpenseContainerClick);
 
 document.addEventListener("DOMContentLoaded", (event) => { 
