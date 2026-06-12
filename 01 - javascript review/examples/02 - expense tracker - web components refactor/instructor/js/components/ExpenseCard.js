@@ -26,7 +26,16 @@ class ExpenseCard extends HTMLElement {
     }
 
     if (event.target.classList.contains('delete-btn')) {
-      // somehow send a delete to the array
+      console.log("ExpenseCard.#handleClick: got a delete click")
+      this.dispatchEvent( // fire an event:
+        new CustomEvent(  // we can make custom events, not just 'change', 'input', 'submit', 'click', etc.
+          "expense-delete", // param1: name of custom event
+          {                 // param2: data/metadata for the event (packed inside an object)
+            bubbles: true,       // bubbles true/false: event can propagate up through the DOM. if false, restricted to this component/DOM node.
+            detail:  { id },     // detail: the data/'payload' I'm sending with the event. (kind of like "event.target.value")
+          }
+        )   
+      )
     }
   };
 

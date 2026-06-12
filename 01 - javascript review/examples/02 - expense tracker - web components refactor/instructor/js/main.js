@@ -31,11 +31,6 @@ const list   = document.querySelector('expense-list');
 //   if (expense) Object.assign(expense, fields); 
 // }
 
-// function deleteExpense(id) {
-//   const index = expenses.findIndex((expense) => expense.id === id);
-//   if (index !== -1) expenses.splice(index, 1) 
-// }
-
 // function searchExpenses(query) {
 //   const q = query.toLowerCase();
 //   return expenses.filter(
@@ -83,6 +78,26 @@ const list   = document.querySelector('expense-list');
 
 // expenseContainer.addEventListener("click", handleExpenseContainerClick);
 
+// here's where I'll listen for the custom events, since it's where my single-source-of-truth expenses array
+// lives.
+document.addEventListener(
+  'expense-delete',
+  (event) => {
+    const index = expenses.findIndex((expense) => expense.id === event.detail.id);
+    if (index !== -1) expenses.splice(index, 1);
+    // ^ this is just logic relocated from the deleteExpense helper function.
+    // the only thing I need to do is change the data in the expense container.
+    list.expenses = [...expenses] 
+    // ^ instead of manually triggering a re-render (data change -> rerender is now automatic in ExpenseList),
+    //   I need to make the ExpenseList.expenses aware of the new data.
+  }
+)
+
 document.addEventListener('DOMContentLoaded', () => {
+  // list is the ExpenseList object I sniped from the DOM at the start of the page.
+  // ExpenseList.expenses is the private field set up in that component to receive an expense array.
+  // Because it's a private field, the new data passes through the setter function I wrote to automatically
+  // re-render whenever the data gets changed.
+  // -> we do [...expenses] to copy the expenses in, rather than pass this array, so we don't risk accidentally mutating it.
   list.expenses = [...expenses];
 });
