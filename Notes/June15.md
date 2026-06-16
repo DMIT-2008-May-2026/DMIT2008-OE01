@@ -31,3 +31,8 @@
 - Write props/properties
 
 ### Next JS
+- npm install -g create-next-app@latest
+- ls
+- npx create-next-app projectNameHere
+- yes to defaults
+- npm run dev
