@@ -36,3 +36,6 @@
 - npx create-next-app projectNameHere
 - yes to defaults
 - npm run dev
+
+
+git reflog
