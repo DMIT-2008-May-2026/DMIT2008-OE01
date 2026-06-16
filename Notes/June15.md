@@ -39,3 +39,8 @@
 
 
 git reflog
+cd -> start typing in the letter and then hit tab
+dir
+
+pnpm install
+pnpm run dev
