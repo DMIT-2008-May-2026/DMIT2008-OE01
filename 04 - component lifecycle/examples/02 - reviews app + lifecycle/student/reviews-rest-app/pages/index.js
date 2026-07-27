@@ -1,25 +1,41 @@
 // React hooks
-import { useState } from 'react';
+import { useState, useEffect } from "react";
+
+// API functions
+import { getReviews } from "./api/reviews";
 
 // nextjs components
-import Head from 'next/head'
+import Head from "next/head";
 
 // MUI components - layout
-import Container from '@mui/material/Container';
+import Container from "@mui/material/Container";
 
 // MUI components - physical (header)
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 
 // our own components
-import ReviewCard from './components/ReviewCard';
-import ReviewForm from './components/ReviewForm'
-
+import ReviewCard from "./components/ReviewCard";
+import ReviewForm from "./components/ReviewForm";
 
 export default function Home() {
+  const [reviews, setReviews] = useState([]);
 
-  const [reviews, setReviews] = useState([])
+  const loadAllReviews = () => {
+    // I'm demonstrating 'bad practice' in the interest of concision;
+    // ideally, API functions would be in a separate layer from rendering.
+    getReviews().then((data) => {
+      setReviews(data);
+    });
+  };
+
+  useEffect(
+    () => {
+      loadAllReviews();
+    }, // param1: the logic (callback function) that should run when effect fires
+    [], // param2: the dependency array ('when' should the effect fire? here, when component mounts)
+  );
 
   return (
     <div>
@@ -38,29 +54,26 @@ export default function Home() {
 
       <main>
         <Container maxWidth="md">
-
           {/* Because I need to overwrite reviews in my form (upon submission),
               I need to pass the reviews (so I can read it) & its setter (so I can overwrite it)
               down into the form component.
 
               We're *sharing state* between this top-level page component & the form. 
           */}
-          <ReviewForm
-            reviews={reviews}
-            onReviewsChange={setReviews}
-          />
+          <ReviewForm reviews={reviews} onReviewsChange={setReviews} />
 
           {reviews.map((adaptation, index) => {
-            return <ReviewCard
-              key={index}
-              rating={adaptation.rating}
-              title={adaptation.title}
-              comment={adaptation.comment}
-            />
+            return (
+              <ReviewCard
+                key={index}
+                rating={adaptation.rating}
+                title={adaptation.title}
+                comment={adaptation.comment}
+              />
+            );
           })}
-
         </Container>
       </main>
     </div>
-  )
+  );
 }
