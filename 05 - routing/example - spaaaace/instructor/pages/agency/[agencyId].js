@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -10,6 +11,10 @@ import SimpleDetailsCard from '@components/SimpleDetailsCard';
 
 
 export default function Agency() {
+
+  const router = useRouter();
+  const { agencyId } = router.query; // destructure out any/all dynamic route params
+
   return (
     <>
       <NavBar />
@@ -20,7 +25,7 @@ export default function Agency() {
           </Grid>
           <Grid item xs="10">
             <Typography variant="h3" gutterBottom>
-              Agency Page
+              Agency Page for {agencyId}
             </Typography>
           </Grid>
         </Grid>
