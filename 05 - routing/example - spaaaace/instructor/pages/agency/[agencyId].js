@@ -10,6 +10,7 @@ import Grid from '@mui/material/Grid';
 
 import Typography from '@mui/material/Typography';
 
+import LoadingCircle from '@components/LoadingCircle';
 import NavBar from '@components/NavBar';
 import SimpleDetailsCard from '@components/SimpleDetailsCard';
 
@@ -34,18 +35,26 @@ export default function Agency() {
   return (
     <>
       <NavBar />
-      <Container sx={{ paddingTop: 2 }}>
-        <Grid container>
-          <Grid item xs="2">
-            {/* future thing here */}
+      { !agencyDetails ?
+        <LoadingCircle />
+        :
+        <Container sx={{ paddingTop: 2 }}>
+          <Grid container>
+            <Grid item xs="2">
+              <img
+                alt={agencyDetails.name}
+                src={agencyDetails.logo_url}
+                style={{ width: "120px" }}
+              />
+            </Grid>
+            <Grid item xs="10">
+              <Typography variant="h3" gutterBottom>
+                Agency Page for {agencyId}
+              </Typography>
+            </Grid>
           </Grid>
-          <Grid item xs="10">
-            <Typography variant="h3" gutterBottom>
-              Agency Page for {agencyId}
-            </Typography>
-          </Grid>
-        </Grid>
-      </Container>
+        </Container>
+    }
     </>
   )
 }
