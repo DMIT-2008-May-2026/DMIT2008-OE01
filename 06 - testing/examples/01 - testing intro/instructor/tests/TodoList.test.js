@@ -29,3 +29,24 @@ test(
     expect(titleElement).toBeInTheDocument();
   }
 )
+
+// test 2: testing behavioural logic (todo list submission)
+//         a 'bad test' - testing too many things at once (input field AND list addition)
+test(
+  'todo item adds successfully to list',
+  () => {
+    // 1. setup
+    render(<TodoList />)
+    const inputElement = screen.getByLabelText("New Todo")  // different ways of sniping elements:
+    const EXPECTED_STRING = "Learn Testing in Javascript"
+
+    // 2. act
+    fireEvent.change(
+      inputElement, // the element I want to fire a change event on
+      { target: { value: EXPECTED_STRING } }
+    )
+
+    // 3. assert
+    expect(inputElement.value).toBe(EXPECTED_STRING)
+  }
+)
