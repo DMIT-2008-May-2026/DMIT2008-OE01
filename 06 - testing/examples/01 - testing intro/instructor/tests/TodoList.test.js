@@ -37,7 +37,12 @@ test(
   () => {
     // 1. setup
     render(<TodoList />)
+
     const inputElement = screen.getByLabelText("New Todo")  // different ways of sniping elements:
+    const buttonElement = screen.getByText("Add Todo")
+    // preferred way of sniping elements: by some sort of id/attribute, *not* rendered end-values (unless as a last resort)
+    const listElement = screen.getByTestId("todo-item-list") // see: data-test-id attr in components/TodoList.js  
+
     const EXPECTED_STRING = "Learn Testing in Javascript"
 
     // 2. act
@@ -45,8 +50,16 @@ test(
       inputElement, // the element I want to fire a change event on
       { target: { value: EXPECTED_STRING } }
     )
+    // expect(inputElement.value).toBe(EXPECTED_STRING) // if we were ending the test with input element
+
+
+    // "act" needs to be used when we update state
+    act(() => {
+      buttonElement.click()
+    })
 
     // 3. assert
-    expect(inputElement.value).toBe(EXPECTED_STRING)
+    expect(inputElement.value).toBe('')
+    expect(listElement).toHaveTextContent(EXPECTED_STRING)
   }
 )
